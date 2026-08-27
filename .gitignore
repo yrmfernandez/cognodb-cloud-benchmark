@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Dataset and generated data
+data/raw/
+data/processed/
+
+# Benchmark results
+results/raw/
+results/processed/
+
+# OS
+.DS_Store
+Thumbs.db
