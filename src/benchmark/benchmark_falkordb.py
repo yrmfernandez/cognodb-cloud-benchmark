@@ -1,10 +1,14 @@
 import os
 import time
 import statistics
+from pathlib import Path
 
+import sys
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 from dotenv import load_dotenv
 
-from adapters.memgraph import MemgraphAdapter
+from adapters.falkordb import FalkordbAdapter
 
 
 ITERATIONS = 30
@@ -27,9 +31,9 @@ def percentile(values, percentile):
 def main():
     load_dotenv()
 
-    adapter = MemgraphAdapter()
+    adapter = FalkordbAdapter()
 
-    print("Connecting to Memgraph...")
+    print("Connecting to Falkordb...")
     adapter.connect()
     print("Connected successfully.\n")
 

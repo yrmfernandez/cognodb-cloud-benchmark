@@ -1,12 +1,17 @@
-from adapters.neo4j import Neo4jAdapter
-from workloads import point_lookup
+from pathlib import Path
+import sys
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from src.adapters.memgraph import MemgraphAdapter
+from src.workloads import point_lookup
 
 
 def main():
-    adapter = Neo4jAdapter()
+    adapter = MemgraphAdapter()
 
     try:
-        print("Connecting to Neo4j...")
+        print("Connecting to Memgraph...")
         adapter.connect()
         print("Connected successfully.")
 
