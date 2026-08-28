@@ -55,6 +55,58 @@ treated as identical.
 - Mixed read/write workload
 - Concurrency testing
 
-## Status
+## Benchmark Results
 
-Benchmark implementation in progress.
+The benchmark evaluates five graph databases using the same dataset, workload definitions, and execution configuration.
+
+### Benchmark Configuration
+
+| Parameter | Value |
+|---|---:|
+| Databases | 5 |
+| User nodes | 7,115 |
+| `VOTED_FOR` relationships | 103,689 |
+| Measured iterations | 100 |
+| Warmup iterations | 30 |
+| Starting user ID | 30 |
+| Workloads | 5 |
+| Failed iterations | 0 |
+
+### Workloads
+
+The following workloads were executed against each database:
+
+1. **Point Lookup** — retrieves a single user by `user_id`.
+2. **1-Hop Traversal** — retrieves users directly connected to the starting user.
+3. **2-Hop Traversal** — retrieves users reachable through exactly two relationships.
+4. **3-Hop Traversal** — retrieves users reachable through exactly three relationships.
+5. **Indexed Lookup** — retrieves users matching a specific `user_type` value using the configured index.
+
+### Average Latency Results
+
+Lower latency indicates better performance.
+
+| Workload | CognoDB (ms) | Neo4j (ms) | Memgraph (ms) | ArangoDB (ms) | FalkorDB (ms) | Fastest |
+|---|---:|---:|---:|---:|---:|---|
+| Point Lookup | 220.82 | **70.77** | 169.22 | 217.85 | 113.35 | **Neo4j** |
+| 1-Hop Traversal | 221.21 | **75.02** | 164.53 | 216.74 | 117.38 | **Neo4j** |
+| 2-Hop Traversal | 259.67 | **98.24** | 198.09 | 254.70 | 122.60 | **Neo4j** |
+| 3-Hop Traversal | 775.37 | 332.81 | 480.29 | 2065.94 | **156.46** | **FalkorDB** |
+| Indexed Lookup | 285.76 | **114.56** | 226.12 | 229.32 | 131.80 | **Neo4j** |
+
+### Performance Advantage
+
+The following shows how much faster the best-performing database was compared with the second-fastest database for each workload.
+
+| Workload | Fastest | Second Fastest | Advantage |
+|---|---|---|---:|
+| Point Lookup | Neo4j | FalkorDB | **37.6%** |
+| 1-Hop Traversal | Neo4j | FalkorDB | **36.0%** |
+| 2-Hop Traversal | Neo4j | FalkorDB | **19.9%** |
+| 3-Hop Traversal | FalkorDB | Neo4j | **53.0%** |
+| Indexed Lookup | Neo4j | FalkorDB | **13.1%** |
+
+Percentage advantage is calculated as:
+
+```text
+((second-fastest latency - fastest latency) / second-fastest latency) × 100
