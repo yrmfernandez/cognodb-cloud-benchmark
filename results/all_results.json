@@ -1,0 +1,72 @@
+{
+  "cognodb": {
+    "database": "cognodb",
+    "point_lookup": {
+      "iterations": 30,
+      "successful": 30,
+      "failed": 0,
+      "average_ms": 215.89595000259578,
+      "median_ms": 215.34549992065877,
+      "min_ms": 211.73040010035038,
+      "max_ms": 221.22569987550378,
+      "p50_ms": 215.34549992065877,
+      "p95_ms": 219.58743993891403
+    }
+  },
+  "neo4j": {
+    "database": "neo4j",
+    "point_lookup": {
+      "iterations": 30,
+      "successful": 30,
+      "failed": 0,
+      "average_ms": 63.06643666854749,
+      "median_ms": 62.25764995906502,
+      "min_ms": 59.89020015113056,
+      "max_ms": 74.3406000547111,
+      "p50_ms": 62.25764995906502,
+      "p95_ms": 67.50166000565513
+    }
+  },
+  "memgraph": {
+    "database": "memgraph",
+    "point_lookup": {
+      "iterations": 30,
+      "successful": 30,
+      "failed": 0,
+      "average_ms": 160.99452999575684,
+      "median_ms": 160.71924997959286,
+      "min_ms": 157.93609991669655,
+      "max_ms": 164.40770006738603,
+      "p50_ms": 160.71924997959286,
+      "p95_ms": 164.01603505946696
+    }
+  },
+  "arangodb": {
+    "database": "arangodb",
+    "point_lookup": {
+      "iterations": 30,
+      "successful": 30,
+      "failed": 0,
+      "average_ms": 212.98000001503775,
+      "median_ms": 203.68770009372383,
+      "min_ms": 200.427700066939,
+      "max_ms": 300.1576999668032,
+      "p50_ms": 203.68770009372383,
+      "p95_ms": 253.27297503827137
+    }
+  },
+  "falkordb": {
+    "database": "falkordb",
+    "point_lookup": {
+      "iterations": 30,
+      "successful": 30,
+      "failed": 0,
+      "average_ms": 119.01163334647815,
+      "median_ms": 118.37980011478066,
+      "min_ms": 115.32760015688837,
+      "max_ms": 130.69209991954267,
+      "p50_ms": 118.37980011478066,
+      "p95_ms": 122.81002986710519
+    }
+  }
+}

@@ -33,6 +33,7 @@ def measure_workload(workload, adapter, iterations=30):
         "median_ms": statistics.median(latencies),
         "min_ms": min(latencies),
         "max_ms": max(latencies),
+        "p50_ms": percentile(latencies, 50),
         "p95_ms": percentile(latencies, 95),
     }
 
