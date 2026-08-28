@@ -14,7 +14,7 @@ PASSWORD = os.getenv("COGNODB_PASSWORD")
 NODES_FILE = "data/processed/nodes.csv"
 RELATIONSHIPS_FILE = "data/processed/relationships.csv"
 
-BATCH_SIZE = 50  # Number of records to process in each batch
+BATCH_SIZE = 500  # Number of records to process in each batch
 
 def create_driver():
     if not URI:
@@ -127,29 +127,39 @@ def load_relationships(driver):
 def load_relationship_batch(driver, batch):
     query = """
     UNWIND $batch AS row
-    
-    MATCH (source:User {user_id: row.source_user_id})
-    MATCH (target:User {user_id: row.target_user_id})
+
+    MATCH (source:User {user_id: row.source_id})
+    MATCH (target:User {user_id: row.target_id})
 
     CREATE (source)-[:VOTED_FOR]->(target)
+
+    RETURN count(*) AS created
     """
 
-    for attempt in range(3):  # Retry up to 3 times
+    for attempt in range(3):
         try:
             with driver.session() as session:
-                session.run(query, batch=batch).consume()
-            break  # Exit the loop if successful
+                result = session.run(query, batch=batch)
+                record = result.single()
+
+                if record:
+                    created = record["created"]
+                    print(f"  Created {created} relationships in batch.")
+
+            return
+
         except Exception as e:
             print(f"Error loading relationships batch: {e}")
-            if attempt < 2:  # If not the last attempt, wait and retry
+
+            if attempt < 2:
                 print("Retrying...")
             else:
-                raise  # Raise the exception if all attempts fail
-            #reconnect before retrying
+                raise
+
             try:
                 driver.verify_connectivity()
-            except Exception as e:
-                pass # If reconnection fails, the next attempt will also fail and raise the exception
+            except Exception:
+                pass
 
 def verify_database(driver):
     print("\nverifying database...")
