@@ -2,11 +2,26 @@ import time
 import statistics
 
 
-def measure_workload(workload, adapter, iterations=30):
+def measure_workload(workload, adapter, iterations=100, warmup_iterations=30):
     """
     Execute a workload repeatedly and measure latency in milliseconds.
+
+    Warm-up iterations are executed first and are NOT included
+    in the benchmark results.
     """
 
+    # -------------------------
+    # Warm-up phase
+    # -------------------------
+    for _ in range(warmup_iterations):
+        try:
+            workload(adapter)
+        except Exception:
+            pass
+
+    # -------------------------
+    # Measurement phase
+    # -------------------------
     latencies = []
     successful = 0
     failed = 0
@@ -22,11 +37,14 @@ def measure_workload(workload, adapter, iterations=30):
 
         end = time.perf_counter()
 
-        latency_ms = (end - start) * 1000
-        latencies.append(latency_ms)
+        latencies.append((end - start) * 1000)
 
+    # -------------------------
+    # Results
+    # -------------------------
     return {
         "iterations": iterations,
+        "warmup_iterations": warmup_iterations,
         "successful": successful,
         "failed": failed,
         "average_ms": statistics.mean(latencies),

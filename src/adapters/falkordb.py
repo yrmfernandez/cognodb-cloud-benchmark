@@ -62,3 +62,47 @@ class FalkordbAdapter(DatabaseAdapter):
             "user_id": user_id,
             "user_type": user_type
         }
+
+    def indexed_lookup(self, user_type):
+        query = """
+        MATCH (u:User {user_type: $user_type})
+        RETURN u.user_id AS user_id,
+               u.user_type AS user_type
+        """
+
+        result = self.graph.query(
+            query,
+            params={"user_type": user_type}
+        )
+
+        return [
+            {
+                "user_id": row[0],
+                "user_type": row[1]
+            }
+            for row in result.result_set
+        ]
+    
+    def hop_1(self, user_id):
+        query = """
+        MATCH (u:User {user_id: $user_id})-[:VOTED_FOR]->(v:User)
+        RETURN v.user_id AS user_id, v.user_type AS user_type
+        """
+        result = self.graph.query(query, params={"user_id": user_id})
+        return [{"user_id": row[0], "user_type": row[1]} for row in result.result_set]
+
+    def hop_2(self, user_id):
+        query = """
+        MATCH (u:User {user_id: $user_id})-[:VOTED_FOR]->()-[:VOTED_FOR]->(v:User)
+        RETURN DISTINCT v.user_id AS user_id, v.user_type AS user_type
+        """
+        result = self.graph.query(query, params={"user_id": user_id})
+        return [{"user_id": row[0], "user_type": row[1]} for row in result.result_set]
+
+    def hop_3(self, user_id):
+        query = """
+        MATCH (u:User {user_id: $user_id})-[:VOTED_FOR]->()-[:VOTED_FOR]->()-[:VOTED_FOR]->(v:User)
+        RETURN DISTINCT v.user_id AS user_id, v.user_type AS user_type
+        """
+        result = self.graph.query(query, params={"user_id": user_id})
+        return [{"user_id": row[0], "user_type": row[1]} for row in result.result_set]

@@ -7,10 +7,11 @@ from adapters.memgraph import MemgraphAdapter
 from adapters.arangodb import ArangodbAdapter
 from adapters.falkordb import FalkordbAdapter
 
-from workloads import point_lookup
+from workloads import point_lookup, hop_1, hop_2, hop_3, indexed_lookup
 from metrics import measure_workload
 
-ITERATIONS = 30
+ITERATIONS = 100
+WARMUP_ITERATIONS = 30
 USER_ID = 30
 RESULTS_DIR = "results"
 
@@ -27,6 +28,10 @@ DATABASES = [
 # file needs to change.
 WORKLOADS = {
     "point_lookup": lambda adapter: point_lookup(adapter, user_id=USER_ID),
+    "hop_1": lambda adapter: hop_1(adapter, user_id=USER_ID),
+    "hop_2": lambda adapter: hop_2(adapter, user_id=USER_ID),
+    "hop_3": lambda adapter: hop_3(adapter, user_id=USER_ID),
+    "indexed_lookup": lambda adapter: indexed_lookup(adapter, user_type=0),
 }
 
 
@@ -52,6 +57,7 @@ def run_database(db_name, adapter_cls):
                 workload=workload_fn,
                 adapter=adapter,
                 iterations=ITERATIONS,
+                warmup_iterations=WARMUP_ITERATIONS,
             )
 
             print(f"Successful: {results['successful']}")

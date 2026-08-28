@@ -16,3 +16,9 @@ class DatabaseAdapter:
 
     def point_lookup(self, user_id):
         raise NotImplementedError
+
+    def point_lookup(self, user_id): 
+        raise NotImplementedError 
+
+    def indexed_lookup(self, user_type): 
+        raise NotImplementedError
