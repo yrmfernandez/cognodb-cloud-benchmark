@@ -147,4 +147,4 @@ These results should be interpreted within the specific benchmark environment, d
 
 ### Benchmark Visualization
 
-![Database Benchmark Comparison](results/charts/benchmark_comparison.png)
+![Database Benchmark Comparison](results/charts/benchmark_average_latency.png)
