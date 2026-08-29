@@ -22,3 +22,6 @@ class DatabaseAdapter:
 
     def indexed_lookup(self, user_type): 
         raise NotImplementedError
+
+    def aggregation(self):
+        raise NotImplementedError

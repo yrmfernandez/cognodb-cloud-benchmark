@@ -14,6 +14,7 @@ WORKLOADS = (
     ("hop_2", "2-Hop Traversal"),
     ("hop_3", "3-Hop Traversal"),
     ("indexed_lookup", "Indexed Lookup"),
+    ("aggregation", "Aggregation"),
 )
 METRICS = ("average_ms", "p95_ms")
 
@@ -156,8 +157,10 @@ def build_report(average_rows, p95_rows, relative_rows):
         "",
         "Lower latency is better.",
         "",
-        "| Rank | Database | Point Lookup | 1-Hop | 2-Hop | 3-Hop | Indexed Lookup |",
-        "|---:|---|---:|---:|---:|---:|---:|",
+        "| Rank | Database | " + " | ".join(
+            workload_name for _, workload_name in WORKLOADS
+        ) + " |",
+        "|---:|---|" + "---:|" * len(WORKLOADS),
     ]
 
     databases = sorted(

@@ -82,6 +82,21 @@ class FalkordbAdapter(DatabaseAdapter):
             }
             for row in result.result_set
         ]
+
+    def aggregation(self):
+        query = """
+        MATCH (u:User)
+        RETURN u.user_type AS user_type, count(u) AS user_count
+        ORDER BY user_type
+        """
+        result = self.graph.query(query)
+        return [
+            {
+                "user_type": row[0],
+                "user_count": row[1]
+            }
+            for row in result.result_set
+        ]
     
     def hop_1(self, user_id):
         query = """

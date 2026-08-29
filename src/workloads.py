@@ -47,3 +47,12 @@ def indexed_lookup(adapter, user_type=0):
     Returns all users matching the specified user_type. 
     """ 
     return adapter.indexed_lookup(user_type)
+
+
+def aggregation(adapter):
+    """
+    Count users grouped by user_type.
+
+    Returns one row per user_type value.
+    """
+    return adapter.aggregation()

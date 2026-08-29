@@ -85,6 +85,17 @@ class Neo4jAdapter(DatabaseAdapter):
                 for record in result
             ]
 
+    def aggregation(self):
+        query = """
+        MATCH (u:User)
+        RETURN u.user_type AS user_type, count(u) AS user_count
+        ORDER BY user_type
+        """
+
+        with self.driver.session(database=self.database) as session:
+            result = session.run(query)
+            return result.data()
+
     def hop_1(self, user_id): 
         """ 
         Traverse exactly 1 hop from the starting user. 

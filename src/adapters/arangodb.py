@@ -80,6 +80,20 @@ class ArangodbAdapter(DatabaseAdapter):
 
         return list(result)
 
+    def aggregation(self):
+        query = """
+        FOR u IN users
+            COLLECT user_type = u.user_type WITH COUNT INTO user_count
+            SORT user_type
+            RETURN {
+                user_type: user_type,
+                user_count: user_count
+            }
+        """
+
+        result = self.db.aql.execute(query)
+        return list(result)
+
     def hop_1(self, user_id):
         query = """
         WITH users

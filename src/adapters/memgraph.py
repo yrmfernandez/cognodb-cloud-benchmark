@@ -83,6 +83,17 @@ class MemgraphAdapter(DatabaseAdapter):
 
             return result.data()
 
+    def aggregation(self):
+        query = """
+        MATCH (u:User)
+        RETURN u.user_type AS user_type, count(u) AS user_count
+        ORDER BY user_type
+        """
+
+        with self.driver.session() as session:
+            result = session.run(query)
+            return result.data()
+
     def hop_1(self, user_id):
         query = """
         MATCH (u {user_id: $user_id})-[]->(v)

@@ -7,7 +7,14 @@ from adapters.memgraph import MemgraphAdapter
 from adapters.arangodb import ArangodbAdapter
 from adapters.falkordb import FalkordbAdapter
 
-from workloads import point_lookup, hop_1, hop_2, hop_3, indexed_lookup
+from workloads import (
+    point_lookup,
+    hop_1,
+    hop_2,
+    hop_3,
+    indexed_lookup,
+    aggregation,
+)
 from metrics import measure_workload
 
 ITERATIONS = 100
@@ -32,6 +39,7 @@ WORKLOADS = {
     "hop_2": lambda adapter: hop_2(adapter, user_id=USER_ID),
     "hop_3": lambda adapter: hop_3(adapter, user_id=USER_ID),
     "indexed_lookup": lambda adapter: indexed_lookup(adapter, user_type=0),
+    "aggregation": aggregation,
 }
 
 
