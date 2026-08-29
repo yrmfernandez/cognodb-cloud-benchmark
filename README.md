@@ -194,17 +194,25 @@ Based on average latency across the five workloads:
 
 ### Results Analysis
 
-The benchmark shows that Neo4j achieved the lowest average latency in four of the five workloads: point lookup, 1-hop traversal, 2-hop traversal, and indexed lookup.
+All five databases completed 100 of 100 measured iterations for every workload, with zero failed operations. The comparison therefore reflects latency differences rather than different success rates.
 
-Neo4j recorded an average point lookup latency of 70.77 ms, making it the fastest database for single-node retrieval. It also performed best for 1-hop and 2-hop traversals, with average latencies of 75.02 ms and 98.24 ms respectively.
+#### Average Latency
 
-FalkorDB performed best for the 3-hop traversal workload, recording an average latency of 156.46 ms. This was approximately 53.0% faster than the second-fastest database, Neo4j, which recorded 332.81 ms.
+Neo4j achieved the lowest average latency in four of the five workloads: point lookup, 1-hop traversal, 2-hop traversal, and indexed lookup. Its average latencies were 70.77 ms, 75.02 ms, 98.24 ms, and 114.56 ms respectively. Neo4j was therefore the strongest general-purpose performer in this benchmark.
 
-ArangoDB showed a significant increase in latency for the 3-hop traversal workload, reaching an average of 2,065.94 ms. This was substantially higher than the other databases tested.
+FalkorDB was the fastest database for 3-hop traversal at 156.46 ms and ranked second in the other four workloads. Its performance remained comparatively consistent as traversal depth increased, which made it the strongest option for the deeper traversal tested.
 
-CognoDB recorded average latencies of 220.82 ms, 221.21 ms, 259.67 ms, 775.37 ms, and 285.76 ms across the five workloads. In this benchmark configuration, its performance was generally slower than Neo4j and FalkorDB.
+#### Tail Latency
 
-Overall, the results demonstrate that database performance varies depending on the workload. Neo4j provided the strongest overall performance across most workloads, while FalkorDB demonstrated particularly strong performance for deeper graph traversal.
+The P95 results reinforce the average-latency findings. Neo4j had the lowest P95 latency for point lookup, 1-hop traversal, 2-hop traversal, and indexed lookup. FalkorDB had the lowest 3-hop P95 latency at 165.59 ms, compared with 502.12 ms for Neo4j.
+
+The largest separation occurred at three hops. FalkorDB's 156.46 ms average was approximately 13.20 times faster than ArangoDB's 2,065.94 ms average. ArangoDB's P95 latency also rose to 2,362.40 ms, indicating that the deeper traversal affected both typical and slower operations.
+
+#### CognoDB and Other Results
+
+CognoDB recorded average latencies of 220.82 ms, 221.21 ms, 259.67 ms, 775.37 ms, and 285.76 ms across the five workloads. It was close to ArangoDB for point lookup, 1-hop traversal, and 2-hop traversal, but it was faster than ArangoDB for 3-hop traversal. Memgraph generally occupied the middle of the rankings and outperformed both CognoDB and ArangoDB for 3-hop traversal.
+
+These results show that there is no single winner for every graph workload. Neo4j provided the best overall latency across most tests, while FalkorDB showed a clear advantage for deeper traversal. The findings apply to this dataset, query implementation, managed service configuration, and network environment; they should not be treated as universal rankings for all graph workloads.
 
 ### Key Finding: 3-Hop Traversal
 

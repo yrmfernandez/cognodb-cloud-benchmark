@@ -1,0 +1,26 @@
+workload,workload_name,rank,database,average_ms,fastest
+point_lookup,Point Lookup,1,neo4j,70.77486898982897,True
+point_lookup,Point Lookup,2,falkordb,113.35203898604959,False
+point_lookup,Point Lookup,3,memgraph,169.21569799771532,False
+point_lookup,Point Lookup,4,arangodb,217.84727999707684,False
+point_lookup,Point Lookup,5,cognodb,220.82310498924926,False
+hop_1,1-Hop Traversal,1,neo4j,75.02203999552876,True
+hop_1,1-Hop Traversal,2,falkordb,117.37659800099209,False
+hop_1,1-Hop Traversal,3,memgraph,164.52798802405596,False
+hop_1,1-Hop Traversal,4,arangodb,216.7373519949615,False
+hop_1,1-Hop Traversal,5,cognodb,221.21245198883116,False
+hop_2,2-Hop Traversal,1,neo4j,98.24123800499365,True
+hop_2,2-Hop Traversal,2,falkordb,122.59612600784749,False
+hop_2,2-Hop Traversal,3,memgraph,198.0932019930333,False
+hop_2,2-Hop Traversal,4,arangodb,254.69856598880142,False
+hop_2,2-Hop Traversal,5,cognodb,259.66597999911755,False
+hop_3,3-Hop Traversal,1,falkordb,156.45733600016683,True
+hop_3,3-Hop Traversal,2,neo4j,332.8101679915562,False
+hop_3,3-Hop Traversal,3,memgraph,480.2890369948,False
+hop_3,3-Hop Traversal,4,cognodb,775.3703480027616,False
+hop_3,3-Hop Traversal,5,arangodb,2065.938876979053,False
+indexed_lookup,Indexed Lookup,1,neo4j,114.55734599847347,True
+indexed_lookup,Indexed Lookup,2,falkordb,131.80473500397056,False
+indexed_lookup,Indexed Lookup,3,memgraph,226.1238669999875,False
+indexed_lookup,Indexed Lookup,4,arangodb,229.32252099271864,False
+indexed_lookup,Indexed Lookup,5,cognodb,285.75611299369484,False
