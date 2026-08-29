@@ -112,6 +112,64 @@ Percentage advantage is calculated as:
 ((second-fastest latency - fastest latency) / second-fastest latency) × 100
 ```
 
+### Relative Performance by Workload
+
+The following tables compare each database with the fastest database for that workload. The percentage is calculated as:
+
+```text
+((database latency - best latency) / database latency) × 100
+```
+
+#### Point Lookup
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **70.77 ms** | **Best** |
+| FalkorDB | 113.35 ms | 37.56% slower |
+| Memgraph | 169.22 ms | 58.17% slower |
+| ArangoDB | 217.85 ms | 67.51% slower |
+| CognoDB | 220.82 ms | 67.95% slower |
+
+#### 1-Hop Traversal
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **75.02 ms** | **Best** |
+| FalkorDB | 117.38 ms | 36.08% slower |
+| Memgraph | 164.53 ms | 54.40% slower |
+| ArangoDB | 216.74 ms | 65.39% slower |
+| CognoDB | 221.21 ms | 66.09% slower |
+
+#### 2-Hop Traversal
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **98.24 ms** | **Best** |
+| FalkorDB | 122.60 ms | 19.87% slower |
+| Memgraph | 198.09 ms | 50.41% slower |
+| ArangoDB | 254.70 ms | 61.43% slower |
+| CognoDB | 259.67 ms | 62.17% slower |
+
+#### 3-Hop Traversal
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **FalkorDB** | **156.46 ms** | **Best** |
+| Neo4j | 332.81 ms | 52.99% slower |
+| Memgraph | 480.29 ms | 67.42% slower |
+| CognoDB | 775.37 ms | 79.82% slower |
+| ArangoDB | 2,065.94 ms | 92.43% slower |
+
+#### Indexed Lookup
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **114.56 ms** | **Best** |
+| FalkorDB | 131.80 ms | 13.09% slower |
+| Memgraph | 226.12 ms | 49.34% slower |
+| ArangoDB | 229.32 ms | 50.05% slower |
+| CognoDB | 285.76 ms | 59.91% slower |
+
 ### P95 Latency
 
 P95 represents the latency at which approximately 95% of measured operations completed faster.
@@ -123,6 +181,16 @@ P95 represents the latency at which approximately 95% of measured operations com
 | 2-Hop Traversal | 270.54 | 119.91 | 207.26 | 305.01 | 129.11 |
 | 3-Hop Traversal | 937.43 | 502.12 | 516.91 | 2,362.40 | 165.59 |
 | Indexed Lookup | 312.66 | 124.86 | 243.95 | 292.57 | 145.62 |
+
+### Overall Ranking
+
+Based on average latency across the five workloads:
+
+1. **Neo4j** — fastest in 4 of 5 workloads.
+2. **FalkorDB** — fastest for 3-hop traversal and second-fastest in the other four workloads.
+3. **Memgraph** — generally middle-performing and substantially faster than CognoDB and ArangoDB for 3-hop traversal.
+4. **ArangoDB** — reasonable for shallow queries but extremely slow for 3-hop traversal.
+5. **CognoDB** — similar to ArangoDB on shallow workloads but slower than ArangoDB for 3-hop traversal.
 
 ### Results Analysis
 
@@ -137,6 +205,20 @@ ArangoDB showed a significant increase in latency for the 3-hop traversal worklo
 CognoDB recorded average latencies of 220.82 ms, 221.21 ms, 259.67 ms, 775.37 ms, and 285.76 ms across the five workloads. In this benchmark configuration, its performance was generally slower than Neo4j and FalkorDB.
 
 Overall, the results demonstrate that database performance varies depending on the workload. Neo4j provided the strongest overall performance across most workloads, while FalkorDB demonstrated particularly strong performance for deeper graph traversal.
+
+### Key Finding: 3-Hop Traversal
+
+The 3-hop traversal produced the clearest performance difference:
+
+| Database | Average latency |
+|---|---:|
+| **FalkorDB** | **156.46 ms** |
+| Neo4j | 332.81 ms |
+| Memgraph | 480.29 ms |
+| CognoDB | 775.37 ms |
+| ArangoDB | 2,065.94 ms |
+
+FalkorDB was approximately **13.20× faster than ArangoDB** for this workload.
 
 ### Benchmark Conclusion
 
