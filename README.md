@@ -110,19 +110,21 @@ Percentage advantage is calculated as:
 
 ```text
 ((second-fastest latency - fastest latency) / second-fastest latency) × 100
+```
 
-P95 Latency
+### P95 Latency
 
 P95 represents the latency at which approximately 95% of measured operations completed faster.
 
-Workload	CognoDB (ms)	Neo4j (ms)	Memgraph (ms)	ArangoDB (ms)	FalkorDB (ms)
-Point Lookup	244.55	98.73	191.78	290.47	119.54
-1-Hop Traversal	231.03	115.54	173.24	282.40	131.44
-2-Hop Traversal	270.54	119.91	207.26	305.01	129.11
-3-Hop Traversal	937.43	502.12	516.91	2362.40	165.59
-Indexed Lookup	312.66	124.86	243.95	292.57	145.62
+| Workload | CognoDB (ms) | Neo4j (ms) | Memgraph (ms) | ArangoDB (ms) | FalkorDB (ms) |
+|---|---:|---:|---:|---:|---:|
+| Point Lookup | 244.55 | 98.73 | 191.78 | 290.47 | 119.54 |
+| 1-Hop Traversal | 231.03 | 115.54 | 173.24 | 282.40 | 131.44 |
+| 2-Hop Traversal | 270.54 | 119.91 | 207.26 | 305.01 | 129.11 |
+| 3-Hop Traversal | 937.43 | 502.12 | 516.91 | 2,362.40 | 165.59 |
+| Indexed Lookup | 312.66 | 124.86 | 243.95 | 292.57 | 145.62 |
 
-Results Analysis
+### Results Analysis
 
 The benchmark shows that Neo4j achieved the lowest average latency in four of the five workloads: point lookup, 1-hop traversal, 2-hop traversal, and indexed lookup.
 
@@ -136,16 +138,13 @@ CognoDB recorded average latencies of 220.82 ms, 221.21 ms, 259.67 ms, 775.37 ms
 
 Overall, the results demonstrate that database performance varies depending on the workload. Neo4j provided the strongest overall performance across most workloads, while FalkorDB demonstrated particularly strong performance for deeper graph traversal.
 
-Benchmark Conclusion
+### Benchmark Conclusion
 
 Based on the measured workloads, Neo4j provided the best overall performance, achieving the lowest latency in four out of five tests. FalkorDB was the best-performing database for 3-hop traversal, demonstrating that workload characteristics can significantly influence graph database performance.
 
 These results should be interpreted within the specific benchmark environment, dataset, query implementations, and network conditions used in this project.
 
 
-### Add the chart
-
-```markdown
 ### Benchmark Visualization
 
 ![Database Benchmark Comparison](results/charts/benchmark_comparison.png)
