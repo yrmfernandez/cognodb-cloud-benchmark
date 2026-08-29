@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 INPUT_FILE = "results/benchmark_summary.csv"
-OUTPUT_FILE = "results/benchmark_average_latency.png"
+OUTPUT_FILE = "results/charts/benchmark_average_latency.png"
 
 
 def main():
@@ -28,14 +28,9 @@ def main():
     plt.legend(title="Database")
     plt.tight_layout()
 
+    plt.savefig(OUTPUT_FILE, dpi=300)
     plt.show()
 
-    plt.savefig(
-    "results/charts/benchmark_comparison.png",
-    dpi=300,
-    bbox_inches="tight"
-    )
-    
     print(f"Chart saved to: {OUTPUT_FILE}")
 
 
