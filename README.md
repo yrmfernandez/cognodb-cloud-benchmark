@@ -110,3 +110,42 @@ Percentage advantage is calculated as:
 
 ```text
 ((second-fastest latency - fastest latency) / second-fastest latency) × 100
+
+P95 Latency
+
+P95 represents the latency at which approximately 95% of measured operations completed faster.
+
+Workload	CognoDB (ms)	Neo4j (ms)	Memgraph (ms)	ArangoDB (ms)	FalkorDB (ms)
+Point Lookup	244.55	98.73	191.78	290.47	119.54
+1-Hop Traversal	231.03	115.54	173.24	282.40	131.44
+2-Hop Traversal	270.54	119.91	207.26	305.01	129.11
+3-Hop Traversal	937.43	502.12	516.91	2362.40	165.59
+Indexed Lookup	312.66	124.86	243.95	292.57	145.62
+
+Results Analysis
+
+The benchmark shows that Neo4j achieved the lowest average latency in four of the five workloads: point lookup, 1-hop traversal, 2-hop traversal, and indexed lookup.
+
+Neo4j recorded an average point lookup latency of 70.77 ms, making it the fastest database for single-node retrieval. It also performed best for 1-hop and 2-hop traversals, with average latencies of 75.02 ms and 98.24 ms respectively.
+
+FalkorDB performed best for the 3-hop traversal workload, recording an average latency of 156.46 ms. This was approximately 53.0% faster than the second-fastest database, Neo4j, which recorded 332.81 ms.
+
+ArangoDB showed a significant increase in latency for the 3-hop traversal workload, reaching an average of 2,065.94 ms. This was substantially higher than the other databases tested.
+
+CognoDB recorded average latencies of 220.82 ms, 221.21 ms, 259.67 ms, 775.37 ms, and 285.76 ms across the five workloads. In this benchmark configuration, its performance was generally slower than Neo4j and FalkorDB.
+
+Overall, the results demonstrate that database performance varies depending on the workload. Neo4j provided the strongest overall performance across most workloads, while FalkorDB demonstrated particularly strong performance for deeper graph traversal.
+
+Benchmark Conclusion
+
+Based on the measured workloads, Neo4j provided the best overall performance, achieving the lowest latency in four out of five tests. FalkorDB was the best-performing database for 3-hop traversal, demonstrating that workload characteristics can significantly influence graph database performance.
+
+These results should be interpreted within the specific benchmark environment, dataset, query implementations, and network conditions used in this project.
+
+
+### Add the chart
+
+```markdown
+### Benchmark Visualization
+
+![Database Benchmark Comparison](results/charts/benchmark_comparison.png)
