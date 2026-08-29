@@ -1,31 +1,41 @@
 workload,workload_name,rank,database,average_ms,fastest
-point_lookup,Point Lookup,1,neo4j,82.79339300468564,True
-point_lookup,Point Lookup,2,falkordb,112.33054999727756,False
-point_lookup,Point Lookup,3,memgraph,162.26371399592608,False
-point_lookup,Point Lookup,4,cognodb,218.89384500449523,False
-point_lookup,Point Lookup,5,arangodb,220.28395002475008,False
-hop_1,1-Hop Traversal,1,neo4j,65.36544499685988,True
-hop_1,1-Hop Traversal,2,falkordb,112.71859599743038,False
-hop_1,1-Hop Traversal,3,memgraph,162.2379049938172,False
-hop_1,1-Hop Traversal,4,cognodb,217.9554290114902,False
-hop_1,1-Hop Traversal,5,arangodb,221.10184700228274,False
-hop_2,2-Hop Traversal,1,neo4j,94.63776499498636,True
-hop_2,2-Hop Traversal,2,falkordb,120.28349299915135,False
-hop_2,2-Hop Traversal,3,memgraph,202.92060499778017,False
-hop_2,2-Hop Traversal,4,arangodb,238.82221901789308,False
-hop_2,2-Hop Traversal,5,cognodb,260.45383100630715,False
-hop_3,3-Hop Traversal,1,falkordb,157.01539600500837,True
-hop_3,3-Hop Traversal,2,neo4j,267.3591909883544,False
-hop_3,3-Hop Traversal,3,memgraph,488.21899600094184,False
-hop_3,3-Hop Traversal,4,cognodb,728.0868780007586,False
-hop_3,3-Hop Traversal,5,arangodb,2180.9363029990345,False
-indexed_lookup,Indexed Lookup,1,neo4j,111.50824901182204,True
-indexed_lookup,Indexed Lookup,2,falkordb,131.97174697415903,False
-indexed_lookup,Indexed Lookup,3,arangodb,235.69342699367553,False
-indexed_lookup,Indexed Lookup,4,memgraph,239.36452700057998,False
-indexed_lookup,Indexed Lookup,5,cognodb,287.94162100413814,False
-aggregation,Aggregation,1,neo4j,63.75884298700839,True
-aggregation,Aggregation,2,falkordb,113.18360100733116,False
-aggregation,Aggregation,3,memgraph,166.3301789946854,False
-aggregation,Aggregation,4,arangodb,218.6997040035203,False
-aggregation,Aggregation,5,cognodb,230.59582601534203,False
+point_lookup,Point Lookup,1,neo4j,61.099105996545404,True
+point_lookup,Point Lookup,2,falkordb,114.64061900041997,False
+point_lookup,Point Lookup,3,memgraph,163.41995200142264,False
+point_lookup,Point Lookup,4,cognodb,228.9702979917638,False
+point_lookup,Point Lookup,5,arangodb,237.55640200339258,False
+hop_1,1-Hop Traversal,1,neo4j,61.93969099083915,True
+hop_1,1-Hop Traversal,2,falkordb,116.58096700208262,False
+hop_1,1-Hop Traversal,3,memgraph,162.79184601735324,False
+hop_1,1-Hop Traversal,4,arangodb,212.78628900879994,False
+hop_1,1-Hop Traversal,5,cognodb,218.47874901490286,False
+hop_2,2-Hop Traversal,1,neo4j,95.36470799939707,True
+hop_2,2-Hop Traversal,2,falkordb,120.67223199643195,False
+hop_2,2-Hop Traversal,3,memgraph,206.3276580069214,False
+hop_2,2-Hop Traversal,4,arangodb,228.98495099274442,False
+hop_2,2-Hop Traversal,5,cognodb,262.50748499529436,False
+hop_3,3-Hop Traversal,1,falkordb,154.99284501187503,True
+hop_3,3-Hop Traversal,2,neo4j,268.0152280116454,False
+hop_3,3-Hop Traversal,3,memgraph,493.28146900516003,False
+hop_3,3-Hop Traversal,4,cognodb,765.5314119998366,False
+hop_3,3-Hop Traversal,5,arangodb,2059.8798739979975,False
+indexed_lookup,Indexed Lookup,1,neo4j,112.5602459977381,True
+indexed_lookup,Indexed Lookup,2,falkordb,130.78849300276488,False
+indexed_lookup,Indexed Lookup,3,arangodb,226.56404701527208,False
+indexed_lookup,Indexed Lookup,4,memgraph,235.35081300418824,False
+indexed_lookup,Indexed Lookup,5,cognodb,287.48653000453487,False
+aggregation,Aggregation,1,neo4j,64.84472900861874,True
+aggregation,Aggregation,2,falkordb,114.76075601065531,False
+aggregation,Aggregation,3,memgraph,163.01611199742183,False
+aggregation,Aggregation,4,arangodb,220.9911139891483,False
+aggregation,Aggregation,5,cognodb,229.12589599145576,False
+mixed_read_write,Mixed Read/Write,1,neo4j,133.38637098670006,True
+mixed_read_write,Mixed Read/Write,2,falkordb,230.64710899954662,False
+mixed_read_write,Mixed Read/Write,3,memgraph,332.6950499997474,False
+mixed_read_write,Mixed Read/Write,4,arangodb,631.1427360074595,False
+mixed_read_write,Mixed Read/Write,5,cognodb,798.6629859986715,False
+concurrency,Concurrency,1,neo4j,71.48853098042309,True
+concurrency,Concurrency,2,falkordb,120.80734700430185,False
+concurrency,Concurrency,3,memgraph,173.67669199360535,False
+concurrency,Concurrency,4,cognodb,228.70723399566486,False
+concurrency,Concurrency,5,arangodb,269.8146270029247,False

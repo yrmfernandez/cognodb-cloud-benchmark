@@ -15,6 +15,8 @@ WORKLOADS = (
     ("hop_3", "3-Hop Traversal"),
     ("indexed_lookup", "Indexed Lookup"),
     ("aggregation", "Aggregation"),
+    ("mixed_read_write", "Mixed Read/Write"),
+    ("concurrency", "Concurrency"),
 )
 METRICS = ("average_ms", "p95_ms")
 

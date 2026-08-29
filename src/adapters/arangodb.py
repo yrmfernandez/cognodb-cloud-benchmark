@@ -94,6 +94,21 @@ class ArangodbAdapter(DatabaseAdapter):
         result = self.db.aql.execute(query)
         return list(result)
 
+    def mixed_read_write(self):
+        collection = self.db.collection("users")
+        document = {
+            "_key": "-1",
+            "user_id": -1,
+            "user_type": -1,
+        }
+        collection.insert(document, overwrite=True)
+        result = collection.get("-1")
+        collection.delete("-1", ignore_missing=True)
+        return {
+            "user_id": result["user_id"],
+            "user_type": result["user_type"],
+        }
+
     def hop_1(self, user_id):
         query = """
         WITH users

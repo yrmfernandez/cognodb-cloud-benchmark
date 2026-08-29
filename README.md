@@ -69,7 +69,7 @@ The benchmark evaluates five graph databases using the same dataset, workload de
 | Measured iterations | 100 |
 | Warmup iterations | 30 |
 | Starting user ID | 30 |
-| Workloads | 6 |
+| Workloads | 8 |
 | Failed iterations | 0 |
 
 ### Workloads
@@ -82,6 +82,8 @@ The following workloads were executed against each database:
 4. **3-Hop Traversal** — retrieves users reachable through exactly three relationships.
 5. **Indexed Lookup** — retrieves users matching a specific `user_type` value using the configured index.
 6. **Aggregation** — counts users grouped by `user_type`.
+7. **Mixed Read/Write** — creates or updates, reads, and removes a temporary user.
+8. **Concurrency** — executes simultaneous point lookups against the same database.
 
 ### Average Latency Results
 
@@ -89,12 +91,14 @@ Lower latency indicates better performance.
 
 | Workload | CognoDB (ms) | Neo4j (ms) | Memgraph (ms) | ArangoDB (ms) | FalkorDB (ms) | Fastest |
 |---|---:|---:|---:|---:|---:|---|
-| Point Lookup | 218.89 | **82.79** | 162.26 | 220.28 | 112.33 | **Neo4j** |
-| 1-Hop Traversal | 217.96 | **65.37** | 162.24 | 221.10 | 112.72 | **Neo4j** |
-| 2-Hop Traversal | 260.45 | **94.64** | 202.92 | 238.82 | 120.28 | **Neo4j** |
-| 3-Hop Traversal | 728.09 | 267.36 | 488.22 | 2180.94 | **157.02** | **FalkorDB** |
-| Indexed Lookup | 287.94 | **111.51** | 239.36 | 235.69 | 131.97 | **Neo4j** |
-| Aggregation | 230.60 | **63.76** | 166.33 | 218.70 | 113.18 | **Neo4j** |
+| Point Lookup | 228.97 | **61.10** | 163.42 | 237.56 | 114.64 | **Neo4j** |
+| 1-Hop Traversal | 218.48 | **61.94** | 162.79 | 212.79 | 116.58 | **Neo4j** |
+| 2-Hop Traversal | 262.51 | **95.36** | 206.33 | 228.98 | 120.67 | **Neo4j** |
+| 3-Hop Traversal | 765.53 | 268.02 | 493.28 | 2059.88 | **154.99** | **FalkorDB** |
+| Indexed Lookup | 287.49 | **112.56** | 235.35 | 226.56 | 130.79 | **Neo4j** |
+| Aggregation | 229.13 | **64.84** | 163.02 | 220.99 | 114.76 | **Neo4j** |
+| Mixed Read/Write | 798.66 | **133.39** | 332.70 | 631.14 | 230.65 | **Neo4j** |
+| Concurrency | 228.71 | **71.49** | 173.68 | 269.81 | 120.81 | **Neo4j** |
 
 ### Performance Advantage
 
@@ -102,12 +106,14 @@ The following shows how much faster the best-performing database was compared wi
 
 | Workload | Fastest | Second Fastest | Advantage |
 |---|---|---|---:|
-| Point Lookup | Neo4j | FalkorDB | **26.3%** |
-| 1-Hop Traversal | Neo4j | FalkorDB | **42.0%** |
-| 2-Hop Traversal | Neo4j | FalkorDB | **21.3%** |
-| 3-Hop Traversal | FalkorDB | Neo4j | **41.3%** |
-| Indexed Lookup | Neo4j | FalkorDB | **15.5%** |
-| Aggregation | Neo4j | FalkorDB | **43.7%** |
+| Point Lookup | Neo4j | FalkorDB | **46.7%** |
+| 1-Hop Traversal | Neo4j | FalkorDB | **46.9%** |
+| 2-Hop Traversal | Neo4j | FalkorDB | **21.0%** |
+| 3-Hop Traversal | FalkorDB | Neo4j | **42.2%** |
+| Indexed Lookup | Neo4j | FalkorDB | **13.9%** |
+| Aggregation | Neo4j | FalkorDB | **43.5%** |
+| Mixed Read/Write | Neo4j | FalkorDB | **42.2%** |
+| Concurrency | Neo4j | FalkorDB | **40.8%** |
 
 Percentage advantage is calculated as:
 
@@ -127,61 +133,81 @@ The following tables compare each database with the fastest database for that wo
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **Neo4j** | **82.79 ms** | **Best** |
-| FalkorDB | 112.33 ms | 26.29% slower |
-| Memgraph | 162.26 ms | 48.98% slower |
-| CognoDB | 218.89 ms | 62.18% slower |
-| ArangoDB | 220.28 ms | 62.42% slower |
+| **Neo4j** | **61.10 ms** | **Best** |
+| FalkorDB | 114.64 ms | 46.70% slower |
+| Memgraph | 163.42 ms | 62.61% slower |
+| CognoDB | 228.97 ms | 73.32% slower |
+| ArangoDB | 237.56 ms | 74.28% slower |
 
 #### 1-Hop Traversal
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **Neo4j** | **65.37 ms** | **Best** |
-| FalkorDB | 112.72 ms | 42.01% slower |
-| Memgraph | 162.24 ms | 59.71% slower |
-| CognoDB | 217.96 ms | 70.01% slower |
-| ArangoDB | 221.10 ms | 70.44% slower |
+| **Neo4j** | **61.94 ms** | **Best** |
+| FalkorDB | 116.58 ms | 46.87% slower |
+| Memgraph | 162.79 ms | 61.95% slower |
+| ArangoDB | 212.79 ms | 70.89% slower |
+| CognoDB | 218.48 ms | 71.65% slower |
 
 #### 2-Hop Traversal
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **Neo4j** | **94.64 ms** | **Best** |
-| FalkorDB | 120.28 ms | 21.32% slower |
-| Memgraph | 202.92 ms | 53.36% slower |
-| ArangoDB | 238.82 ms | 60.37% slower |
-| CognoDB | 260.45 ms | 63.66% slower |
+| **Neo4j** | **95.36 ms** | **Best** |
+| FalkorDB | 120.67 ms | 20.97% slower |
+| Memgraph | 206.33 ms | 53.78% slower |
+| ArangoDB | 228.98 ms | 58.35% slower |
+| CognoDB | 262.51 ms | 63.67% slower |
 
 #### 3-Hop Traversal
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **FalkorDB** | **157.02 ms** | **Best** |
-| Neo4j | 267.36 ms | 41.27% slower |
-| Memgraph | 488.22 ms | 67.84% slower |
-| CognoDB | 728.09 ms | 78.43% slower |
-| ArangoDB | 2,180.94 ms | 92.80% slower |
+| **FalkorDB** | **154.99 ms** | **Best** |
+| Neo4j | 268.02 ms | 42.17% slower |
+| Memgraph | 493.28 ms | 68.58% slower |
+| CognoDB | 765.53 ms | 79.75% slower |
+| ArangoDB | 2,059.88 ms | 92.48% slower |
 
 #### Indexed Lookup
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **Neo4j** | **111.51 ms** | **Best** |
-| FalkorDB | 131.97 ms | 15.51% slower |
-| ArangoDB | 235.69 ms | 52.69% slower |
-| Memgraph | 239.36 ms | 53.41% slower |
-| CognoDB | 287.94 ms | 61.27% slower |
+| **Neo4j** | **112.56 ms** | **Best** |
+| FalkorDB | 130.79 ms | 13.94% slower |
+| ArangoDB | 226.56 ms | 50.32% slower |
+| Memgraph | 235.35 ms | 52.17% slower |
+| CognoDB | 287.49 ms | 60.85% slower |
 
 #### Aggregation
 
 | Database | Average latency | Relative performance |
 |---|---:|---:|
-| **Neo4j** | **63.76 ms** | **Best** |
-| FalkorDB | 113.18 ms | 43.66% slower |
-| Memgraph | 166.33 ms | 61.67% slower |
-| ArangoDB | 218.70 ms | 70.84% slower |
-| CognoDB | 230.60 ms | 72.35% slower |
+| **Neo4j** | **64.84 ms** | **Best** |
+| FalkorDB | 114.76 ms | 43.50% slower |
+| Memgraph | 163.02 ms | 60.22% slower |
+| ArangoDB | 220.99 ms | 70.66% slower |
+| CognoDB | 229.13 ms | 71.70% slower |
+
+#### Mixed Read/Write
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **133.39 ms** | **Best** |
+| FalkorDB | 230.65 ms | 42.17% slower |
+| Memgraph | 332.70 ms | 59.91% slower |
+| ArangoDB | 631.14 ms | 78.87% slower |
+| CognoDB | 798.66 ms | 83.30% slower |
+
+#### Concurrency
+
+| Database | Average latency | Relative performance |
+|---|---:|---:|
+| **Neo4j** | **71.49 ms** | **Best** |
+| FalkorDB | 120.81 ms | 40.82% slower |
+| Memgraph | 173.68 ms | 58.84% slower |
+| CognoDB | 228.71 ms | 68.74% slower |
+| ArangoDB | 269.81 ms | 73.50% slower |
 
 ### P95 Latency
 
@@ -189,19 +215,21 @@ P95 represents the latency at which approximately 95% of measured operations com
 
 | Workload | CognoDB (ms) | Neo4j (ms) | Memgraph (ms) | ArangoDB (ms) | FalkorDB (ms) |
 |---|---:|---:|---:|---:|---:|
-| Point Lookup | 225.94 | 150.13 | 166.88 | 290.12 | 118.08 |
-| 1-Hop Traversal | 223.16 | 71.62 | 166.78 | 282.99 | 121.81 |
-| 2-Hop Traversal | 275.22 | 109.06 | 217.81 | 301.40 | 129.91 |
-| 3-Hop Traversal | 810.12 | 320.14 | 542.65 | 3,223.45 | 177.52 |
-| Indexed Lookup | 304.93 | 121.03 | 268.36 | 302.80 | 162.46 |
-| Aggregation | 238.02 | 67.00 | 173.84 | 295.79 | 118.84 |
+| Point Lookup | 272.72 | 66.92 | 171.93 | 290.51 | 122.42 |
+| 1-Hop Traversal | 224.77 | 67.68 | 168.53 | 250.67 | 131.72 |
+| 2-Hop Traversal | 281.34 | 103.20 | 218.14 | 298.58 | 130.93 |
+| 3-Hop Traversal | 862.06 | 321.05 | 544.86 | 2,301.51 | 175.29 |
+| Indexed Lookup | 307.68 | 124.18 | 254.63 | 292.60 | 143.15 |
+| Aggregation | 249.25 | 71.52 | 169.08 | 289.23 | 120.31 |
+| Mixed Read/Write | 879.73 | 139.57 | 363.12 | 687.43 | 247.50 |
+| Concurrency | 237.43 | 79.35 | 189.14 | 398.35 | 124.95 |
 
 ### Overall Ranking
 
-Based on average latency across the six workloads:
+Based on average latency across the eight workloads:
 
-1. **Neo4j** — fastest in 5 of 6 workloads.
-2. **FalkorDB** — fastest for 3-hop traversal and second-fastest in the other five workloads.
+1. **Neo4j** — fastest in 7 of 8 workloads.
+2. **FalkorDB** — fastest for 3-hop traversal and second-fastest in the other seven workloads.
 3. **Memgraph** — generally middle-performing and substantially faster than CognoDB and ArangoDB for 3-hop traversal.
 4. **ArangoDB** — reasonable for shallow queries but extremely slow for 3-hop traversal.
 5. **CognoDB** — similar to ArangoDB on shallow workloads but slower than ArangoDB for 3-hop traversal.
@@ -212,19 +240,19 @@ All five databases completed 100 of 100 measured iterations for every workload, 
 
 #### Average Latency
 
-Neo4j achieved the lowest average latency in five of the six workloads: point lookup, 1-hop traversal, 2-hop traversal, indexed lookup, and aggregation. Its average latencies were 82.79 ms, 65.37 ms, 94.64 ms, 111.51 ms, and 63.76 ms respectively. Neo4j was therefore the strongest general-purpose performer in this benchmark.
+Neo4j achieved the lowest average latency in seven of the eight workloads: point lookup, 1-hop traversal, 2-hop traversal, indexed lookup, aggregation, mixed read/write, and concurrency. Neo4j was therefore the strongest general-purpose performer in this benchmark.
 
-FalkorDB was the fastest database for 3-hop traversal at 157.02 ms and ranked second in the other five workloads. Its performance remained comparatively consistent as traversal depth increased, which made it the strongest option for the deeper traversal tested.
+FalkorDB was the fastest database for 3-hop traversal at 154.99 ms and ranked second in the other seven workloads. Its performance remained comparatively consistent as traversal depth increased, which made it the strongest option for the deeper traversal tested.
 
 #### Tail Latency
 
-The P95 results reinforce the average-latency findings. Neo4j had the lowest P95 latency for point lookup, 1-hop traversal, 2-hop traversal, indexed lookup, and aggregation. FalkorDB had the lowest 3-hop P95 latency at 177.52 ms, compared with 320.14 ms for Neo4j.
+The P95 results reinforce the average-latency findings. Neo4j had the lowest P95 latency for point lookup, 1-hop traversal, 2-hop traversal, indexed lookup, aggregation, mixed read/write, and concurrency. FalkorDB had the lowest 3-hop P95 latency at 175.29 ms, compared with 321.05 ms for Neo4j.
 
-The largest separation occurred at three hops. FalkorDB's 157.02 ms average was approximately 13.89 times faster than ArangoDB's 2,180.94 ms average. ArangoDB's P95 latency also rose to 3,223.45 ms, indicating that the deeper traversal affected both typical and slower operations.
+The largest separation occurred at three hops. FalkorDB's 154.99 ms average was approximately 13.29 times faster than ArangoDB's 2,059.88 ms average. ArangoDB's P95 latency also rose to 2,301.51 ms, indicating that the deeper traversal affected both typical and slower operations.
 
 #### CognoDB and Other Results
 
-CognoDB recorded average latencies of 218.89 ms, 217.95 ms, 260.45 ms, 728.09 ms, 287.94 ms, and 230.60 ms across the six workloads. It was close to ArangoDB for point lookup, 1-hop traversal, 2-hop traversal, and aggregation, but it was faster than ArangoDB for 3-hop traversal. Memgraph generally occupied the middle of the rankings and outperformed both CognoDB and ArangoDB for 3-hop traversal.
+CognoDB recorded average latencies of 228.97 ms, 218.48 ms, 262.51 ms, 765.53 ms, 287.49 ms, 229.13 ms, 798.66 ms, and 228.71 ms across the eight workloads. It was faster than ArangoDB for 3-hop traversal, but ArangoDB was faster for the other listed workloads. Memgraph generally occupied the middle of the rankings and outperformed both CognoDB and ArangoDB for 3-hop traversal.
 
 These results show that there is no single winner for every graph workload. Neo4j provided the best overall latency across most tests, while FalkorDB showed a clear advantage for deeper traversal. The findings apply to this dataset, query implementation, managed service configuration, and network environment; they should not be treated as universal rankings for all graph workloads.
 
@@ -234,17 +262,17 @@ The 3-hop traversal produced the clearest performance difference:
 
 | Database | Average latency |
 |---|---:|
-| **FalkorDB** | **157.02 ms** |
-| Neo4j | 267.36 ms |
-| Memgraph | 488.22 ms |
-| CognoDB | 728.09 ms |
-| ArangoDB | 2,180.94 ms |
+| **FalkorDB** | **154.99 ms** |
+| Neo4j | 268.02 ms |
+| Memgraph | 493.28 ms |
+| CognoDB | 765.53 ms |
+| ArangoDB | 2,059.88 ms |
 
-FalkorDB was approximately **13.89× faster than ArangoDB** for this workload.
+FalkorDB was approximately **13.29× faster than ArangoDB** for this workload.
 
 ### Benchmark Conclusion
 
-Based on the measured workloads, Neo4j provided the best overall performance, achieving the lowest latency in five out of six tests. FalkorDB was the best-performing database for 3-hop traversal, demonstrating that workload characteristics can significantly influence graph database performance.
+Based on the measured workloads, Neo4j provided the best overall performance, achieving the lowest latency in seven out of eight tests. FalkorDB was the best-performing database for 3-hop traversal, demonstrating that workload characteristics can significantly influence graph database performance.
 
 These results should be interpreted within the specific benchmark environment, dataset, query implementations, and network conditions used in this project.
 ## Final Assignment Checklist
@@ -270,17 +298,17 @@ These results should be interpreted within the specific benchmark environment, d
 
 ### Benchmarking
 
-| Database | Point Lookup | 1-Hop | 2-Hop | 3-Hop | Indexed Lookup | Aggregation |
-|---|---:|---:|---:|---:|---:|---:|
-| CognoDB | Complete | Complete | Complete | Complete | Complete | Complete |
-| Memgraph | Complete | Complete | Complete | Complete | Complete | Complete |
-| ArangoDB | Complete | Complete | Complete | Complete | Complete | Complete |
-| FalkorDB | Complete | Complete | Complete | Complete | Complete | Complete |
-| Neo4j | Complete | Complete | Complete | Complete | Complete | Complete |
+| Database | Point Lookup | 1-Hop | 2-Hop | 3-Hop | Indexed Lookup | Aggregation | Mixed Read/Write | Concurrency |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| CognoDB | Complete | Complete | Complete | Complete | Complete | Complete | Complete | Complete |
+| Memgraph | Complete | Complete | Complete | Complete | Complete | Complete | Complete | Complete |
+| ArangoDB | Complete | Complete | Complete | Complete | Complete | Complete | Complete | Complete |
+| FalkorDB | Complete | Complete | Complete | Complete | Complete | Complete | Complete | Complete |
+| Neo4j | Complete | Complete | Complete | Complete | Complete | Complete | Complete | Complete |
 
 All five databases have 100 successful iterations for every executed workload, with zero failed iterations. The benchmark uses 100 measured iterations, 30 warmup iterations, the same dataset, and the same workload definitions.
 
-Aggregation is included in the current benchmark configuration and has results for all five databases in `results/all_results.json`.
+Aggregation, mixed read/write, and concurrency are included in the current benchmark configuration and have results for all five databases in `results/all_results.json`.
 
 ### Results Processing
 
@@ -292,12 +320,13 @@ Complete outputs are generated by `scripts/compare_benchmarks.py`:
 - Relative performance percentages are written to `results/comparison/relative_performance.csv`.
 - A Markdown comparison report is written to `results/comparison/comparison_report.md`.
 - The average-latency chart is stored in `results/charts/benchmark_average_latency.png`.
+- The P95-latency chart is stored in `results/charts/benchmark_p95_latency.png`.
 
 ### Remaining Submission Tasks
 
-- Complete a fresh-environment reproducibility run and verify dependencies before submission.
-- Expand the written report with any required introduction, experimental setup, methodology, and database-system descriptions.
-- Add any additional charts required by the assignment, such as P95 latency comparisons.
+- Complete a fresh-environment reproducibility run before submission. The current environment passes `pip check`.
+
+The README currently documents the introduction, dataset, database systems, experimental setup, benchmark methodology, workloads, results, performance comparison, analysis, and conclusion. Both average-latency and P95 charts are available under `results/charts/`.
 
 
 ### Benchmark Visualization

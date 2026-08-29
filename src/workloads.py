@@ -56,3 +56,20 @@ def aggregation(adapter):
     Returns one row per user_type value.
     """
     return adapter.aggregation()
+
+
+def mixed_read_write(adapter):
+    """Create or update, read, and remove a temporary user."""
+    return adapter.mixed_read_write()
+
+
+def concurrency(adapter, user_id=30, concurrent_requests=5):
+    """Run simultaneous point lookups against one adapter connection."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    with ThreadPoolExecutor(max_workers=concurrent_requests) as executor:
+        futures = [
+            executor.submit(adapter.point_lookup, user_id)
+            for _ in range(concurrent_requests)
+        ]
+        return [future.result() for future in futures]

@@ -25,3 +25,6 @@ class DatabaseAdapter:
 
     def aggregation(self):
         raise NotImplementedError
+
+    def mixed_read_write(self):
+        raise NotImplementedError

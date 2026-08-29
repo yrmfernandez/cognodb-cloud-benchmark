@@ -14,6 +14,8 @@ from workloads import (
     hop_3,
     indexed_lookup,
     aggregation,
+    mixed_read_write,
+    concurrency,
 )
 from metrics import measure_workload
 
@@ -40,6 +42,8 @@ WORKLOADS = {
     "hop_3": lambda adapter: hop_3(adapter, user_id=USER_ID),
     "indexed_lookup": lambda adapter: indexed_lookup(adapter, user_type=0),
     "aggregation": aggregation,
+    "mixed_read_write": mixed_read_write,
+    "concurrency": concurrency,
 }
 
 

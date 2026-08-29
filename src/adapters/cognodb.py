@@ -89,6 +89,20 @@ class CognoDBAdapter(DatabaseAdapter):
             result = session.run(query)
             return result.data()
 
+    def mixed_read_write(self):
+        query = """
+        MERGE (u:User {user_id: -1})
+        SET u.user_type = -1
+        WITH u
+        RETURN u.user_id AS user_id, u.user_type AS user_type
+        """
+        cleanup = "MATCH (u:User {user_id: -1}) DELETE u"
+
+        with self.driver.session() as session:
+            result = session.run(query).single().data()
+            session.run(cleanup).consume()
+            return result
+
     def hop_1(self, user_id):
         query = """
         MATCH (u:User {user_id: $user_id})-[:VOTED_FOR]->(v:User)

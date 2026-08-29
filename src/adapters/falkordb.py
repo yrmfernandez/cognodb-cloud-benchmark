@@ -97,6 +97,19 @@ class FalkordbAdapter(DatabaseAdapter):
             }
             for row in result.result_set
         ]
+
+    def mixed_read_write(self):
+        query = """
+        MERGE (u:User {user_id: -1})
+        SET u.user_type = -1
+        WITH u
+        RETURN u.user_id AS user_id, u.user_type AS user_type
+        """
+        cleanup = "MATCH (u:User {user_id: -1}) DELETE u"
+        result = self.graph.query(query)
+        self.graph.query(cleanup)
+        row = result.result_set[0]
+        return {"user_id": row[0], "user_type": row[1]}
     
     def hop_1(self, user_id):
         query = """
